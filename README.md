@@ -127,12 +127,28 @@ pip install ydata-profiling
 
 ## Host the demo on Render
 
-The repo includes **`main.py`**, which serves the static files under **`docs/`** with Flask + Gunicorn.
+Flask + Gunicorn serve the static site from **`docs/`**. The Python module Gunicorn loads must be a **`.py` file**, not `index.html`.
 
-1. Create a **Web Service** on [Render](https://render.com), connect this repository.
+### Render dashboard (manual Web Service)
+
+1. **New** → **Web Service** → connect this repository.
 2. **Runtime**: Python 3.
-3. **Build command**: `pip install -r requirements.txt`
-4. **Start command**: `gunicorn index:app --bind 0.0.0.0:$PORT`  
-   (`index.py` re-exports the Flask app from `main.py`, so Render’s common default `index:app` works. You can also use `gunicorn main:app --bind 0.0.0.0:$PORT`.)
+3. **Root directory**: leave empty (repository root).
+4. **Build command**: `pip install -r requirements.txt`
+5. **Start command** — copy this **exactly** (no `docs/`, no `index.html`):
 
-Open the service URL; you should see the same site as GitHub Pages. Ensure `docs/` is committed (including `assets/data.json`, images, and HTML).
+   ```bash
+   gunicorn wsgi:app --bind 0.0.0.0:$PORT
+   ```
+
+   **Wrong (causes `ModuleNotFoundError: index.html`):** anything like `gunicorn index.html:app` or a path to `docs/index.html`. Gunicorn only imports Python modules (`wsgi`, `main`, etc.).
+
+6. Save and deploy. Open the service URL; you should see the same site as GitHub Pages.
+
+**Also valid:** `gunicorn main:app --bind 0.0.0.0:$PORT` or `gunicorn index:app ...` if you use root **`index.py`** (optional).
+
+### Blueprint (optional)
+
+Commit **`render.yaml`** and use **New → Blueprint** so the start command is fixed in the repo.
+
+Ensure **`docs/`** is committed (`assets/data.json`, images, HTML, JS, CSS).

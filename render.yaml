@@ -1,0 +1,8 @@
+# Optional: deploy via Render Blueprint so the start command cannot be mistyped.
+# Dashboard: New → Blueprint → connect repo (or link this file in an existing service).
+services:
+  - type: web
+    runtime: python
+    name: fo-stock-forecast-demo
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn wsgi:app --bind 0.0.0.0:$PORT

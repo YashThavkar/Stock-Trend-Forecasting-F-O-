@@ -1,6 +1,4 @@
-"""
-Some hosts default to ``gunicorn index:app``. The real app is defined in ``main``; this file re-exports it.
-"""
+"""Optional alias for ``gunicorn index:app``. Prefer ``wsgi:app`` (see ``wsgi.py``)."""
 from main import app
 
 __all__ = ["app"]
