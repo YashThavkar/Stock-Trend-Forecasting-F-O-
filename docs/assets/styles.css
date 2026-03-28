@@ -430,21 +430,6 @@ a:hover {
   box-shadow: 0 0 0 3px rgba(61, 156, 245, 0.12);
 }
 
-.demo-example {
-  font-size: 0.88rem;
-  color: var(--muted);
-  background: var(--bg);
-  border: 1px dashed var(--border);
-  border-radius: 8px;
-  padding: 0.85rem 1rem;
-  margin: 0.75rem 0 1rem;
-  line-height: 1.5;
-}
-
-.demo-example strong {
-  color: var(--text);
-}
-
 .demo-result {
   margin-top: 1rem;
   padding: 1rem 1.1rem;

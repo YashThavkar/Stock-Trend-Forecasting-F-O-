@@ -112,8 +112,7 @@
     } catch (e) {
       if (notice) {
         notice.hidden = false;
-        notice.textContent =
-          "Interactive Plotly charts need data.json (use GitHub Pages or run python -m http.server in /docs). PNG images above still work.";
+        notice.textContent = "Interactive charts could not be loaded.";
       }
       document.querySelectorAll(".chart").forEach((el) => el.classList.add("chart--mounted"));
       console.error(e);

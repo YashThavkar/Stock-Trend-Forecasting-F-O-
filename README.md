@@ -111,8 +111,28 @@ If `ydata-profiling` is missing, the build still succeeds and writes a **stub** 
 
 ## Requirements
 
+Install everything (notebook, asset scripts, and the optional web server for hosting):
+
 ```bash
-pip install pandas numpy scikit-learn matplotlib seaborn
+pip install -r requirements.txt
 ```
 
 Run `final_prediction.ipynb` from the project root.
+
+Optional profiling (not in `requirements.txt` by default — large dependency):
+
+```bash
+pip install ydata-profiling
+```
+
+## Host the demo on Render
+
+The repo includes **`main.py`**, which serves the static files under **`docs/`** with Flask + Gunicorn.
+
+1. Create a **Web Service** on [Render](https://render.com), connect this repository.
+2. **Runtime**: Python 3.
+3. **Build command**: `pip install -r requirements.txt`
+4. **Start command**: `gunicorn main:app --bind 0.0.0.0:$PORT`  
+   (A **`Procfile`** is included with the same command if Render picks it up automatically.)
+
+Open the service URL; you should see the same site as GitHub Pages. Ensure `docs/` is committed (including `assets/data.json`, images, and HTML).

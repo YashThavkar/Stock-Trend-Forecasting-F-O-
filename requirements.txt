@@ -1,0 +1,15 @@
+# Core: final_prediction.ipynb + scripts/export_portfolio_data.py
+pandas>=2.0,<3
+numpy>=1.26,<3
+scikit-learn>=1.3,<2
+
+# Plots: notebook + scripts/build_docs_assets.py
+matplotlib>=3.8,<4
+seaborn>=0.13,<1
+
+# Host static portfolio on Render (docs/)
+Flask>=3.0,<4
+gunicorn>=22.0,<24
+
+# Optional (local only): full profiling HTML — pip install ydata-profiling
+# ydata-profiling>=4.0

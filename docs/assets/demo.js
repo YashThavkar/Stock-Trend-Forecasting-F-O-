@@ -25,20 +25,15 @@
     return Array.from(tenors);
   }
 
-  function initDemo(payload, err, sourceLabel) {
+  function initDemo(payload, err) {
     const selDate = document.getElementById("demo-date");
     const selTenor = document.getElementById("demo-tenor");
     const selMoney = document.getElementById("demo-moneyness");
     const btn = document.getElementById("demo-submit");
     const out = document.getElementById("demo-output");
-    const hint = document.getElementById("demo-source-hint");
 
     if (!selDate || !btn || !out) return;
 
-    if (hint && sourceLabel) {
-      hint.textContent = sourceLabel;
-      hint.hidden = false;
-    }
     if (err) err.hidden = true;
 
     const lookup = payload.lookup || {};
@@ -49,7 +44,7 @@
     if (!dates.length) {
       if (err) {
         err.hidden = false;
-        err.textContent = "Demo data is empty. Run python scripts/build_docs_assets.py from the project root.";
+        err.textContent = "Demo data is empty.";
       }
       return;
     }
@@ -98,7 +93,7 @@
       const v = lookup[key];
       if (v === undefined) {
         out.innerHTML =
-          '<p class="demo-result demo-result--empty">No value for this combination in the demo dataset. Pick another date (forecast period or last 150 training days).</p>';
+          '<p class="demo-result demo-result--empty">No value for this combination.</p>';
         return;
       }
       out.innerHTML = `
@@ -116,11 +111,7 @@
     const err = document.getElementById("demo-error");
 
     if (window.__DEMO_LOOKUP_PAYLOAD) {
-      initDemo(
-        window.__DEMO_LOOKUP_PAYLOAD,
-        err,
-        "Data source: embedded demo-data.js (works when opening files locally with file://)."
-      );
+      initDemo(window.__DEMO_LOOKUP_PAYLOAD, err);
       return;
     }
 
@@ -141,10 +132,7 @@
     } catch (e) {
       if (err) {
         err.hidden = false;
-        err.innerHTML =
-          "Could not load demo data. Ensure <code>assets/demo-data.js</code> is included before <code>demo.js</code> " +
-          "(run <code>python scripts/build_docs_assets.py</code>). If you removed the embed script, serve the site over " +
-          "<code>http://</code> so <code>demo_lookup.json</code> can load.";
+        err.textContent = "Could not load demo data.";
       }
       console.error(e);
     }

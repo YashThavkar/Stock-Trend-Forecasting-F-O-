@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="F&O volatility surface forecasting — portfolio demo: ML pipeline, EDA report, and interactive lookup."
+      content="F&amp;O volatility surface forecasting: model overview, charts, EDA, and surface lookup."
     />
-    <title>Stock Trend Forecasting (F&O) — Portfolio Demo</title>
+    <title>Stock Trend Forecasting (F&amp;O)</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -17,7 +17,6 @@
     <link rel="stylesheet" href="assets/styles.css" />
     <script src="https://cdn.plot.ly/plotly-2.27.0.min.js" defer></script>
     <script src="assets/app.js" defer></script>
-    <!-- Embeds lookup so Surface demo works on file:// (no fetch). Must load before demo.js. -->
     <script src="assets/demo-data.js" defer></script>
     <script src="assets/demo.js" defer></script>
     <script src="assets/transitions.js" defer></script>
@@ -45,14 +44,14 @@
 
     <main>
       <div class="wrap hero">
-        <span class="hero__badge">Machine learning · Time series · Portfolio</span>
+        <span class="hero__badge">Machine learning · Time series</span>
         <h1>Stock Trend Forecasting (F&amp;O)</h1>
         <p class="hero__lead">
           Learn how <strong>options and futures (F&amp;O)</strong> desks think about risk: prices and hedges depend on
           an entire <strong>surface</strong> of values across <strong>time to expiry (tenor)</strong> and
           <strong>moneyness</strong> (how far the strike is from the spot). This project turns daily surface history
           into a <strong>forecasting model</strong> so you can explore patterns and out-of-sample predictions — useful
-          for quant research, risk dashboards, and interview portfolios.
+          for quant research and risk dashboards.
         </p>
         <div class="hero__actions">
           <a
@@ -73,14 +72,14 @@
           >
         </div>
         <div class="hero__permalink" id="demo-permalink" hidden>
-          <p class="hero__permalink__title">Public demo URL — share or paste into your portfolio:</p>
+          <p class="hero__permalink__title">Demo URL</p>
           <div class="hero__permalink__row">
             <input
               type="url"
               class="hero__permalink__input"
               id="demo-permalink-url"
               readonly
-              aria-label="Public URL of this demo"
+              aria-label="Demo URL"
             />
             <button type="button" class="btn btn--primary" id="demo-permalink-copy">Copy link</button>
           </div>
@@ -92,7 +91,7 @@
             height="320"
             alt="Line chart: 10Y tenor ATM level over time from training data"
           />
-          <figcaption>Static preview from <code>training_data.csv</code> (no JavaScript required).</figcaption>
+          <figcaption>F&amp;O surface slice (10Y, ATM).</figcaption>
         </figure>
       </div>
 
@@ -105,12 +104,7 @@
             notebook reshapes this into a long panel, adds <strong>lags and rolling means</strong> per (tenor,
             moneyness), mixes in <strong>calendar features</strong>, and trains
             <strong>HistGradientBoostingRegressor</strong> (scikit-learn). After a time-based validation window, the
-            model fills the submission template for future dates. This site shows <strong>PNGs</strong> for every
-            visitor, <strong>interactive Plotly</strong> charts when <code>data.json</code> loads,
-            <a href="training_data.html"><strong>training_data.html</strong></a> for quick tables +
-            <code>describe()</code>, and <a href="training_profile.html"><strong>training_profile.html</strong></a> for the
-            full <strong>ydata-profiling</strong> report (histograms, correlations, alerts — like Pandas Profiling).
-            All live under <code>docs/</code>.
+            model fills the submission template for future dates.
           </p>
           <div class="stats" aria-label="Dataset metrics">
             <div class="stat">
@@ -144,22 +138,10 @@
       <section id="interactive-demo">
         <div class="wrap">
           <h2>Try the demo</h2>
-          <p class="section__intro">
-            Pick a <strong>date</strong>, <strong>tenor</strong>, and <strong>moneyness</strong>. Values come from
-            embedded <code>demo-data.js</code> (and match <code>demo_lookup.json</code> on the server), built from
-            <code>predictions_filled.csv</code> plus the <strong>last 150 trading days</strong> of training. Regenerate
-            with <code>python scripts/build_docs_assets.py</code>.
-          </p>
+          <p class="section__intro">Pick a <strong>date</strong>, <strong>tenor</strong>, and <strong>moneyness</strong>.</p>
 
           <div class="demo-card">
             <h3>Surface lookup</h3>
-            <div class="demo-example">
-              <strong>Example inputs:</strong><br />
-              Date: <code>10/15/2019</code> (first forecast day in the template) · Tenor: <code>10Y</code> · Moneyness:
-              <code>1</code> (near ATM).<br />
-              Other ideas: <code>1/6/2020</code> with <code>2M</code> and <code>0.5</code>; or a recent training day from
-              the date dropdown with any tenor/moneyness pair.
-            </div>
             <div class="demo-grid">
               <div class="demo-field">
                 <label for="demo-date">Trading date</label>
@@ -174,12 +156,6 @@
                 <select id="demo-moneyness" aria-label="Moneyness"></select>
               </div>
             </div>
-            <p id="demo-source-hint" class="chart-caption-static" style="margin-top: 1rem" hidden></p>
-            <p class="chart-caption-static">
-              Works when you open <code>index.html</code> directly from disk (<code>file://</code>) thanks to
-              <code>demo-data.js</code>. Interactive Plotly charts still need <code>http://</code> or GitHub Pages so
-              <code>data.json</code> can load.
-            </p>
             <button type="button" class="btn btn--primary" id="demo-submit">Show value</button>
             <p id="demo-error" hidden></p>
             <div id="demo-output"></div>
@@ -190,16 +166,11 @@
       <section id="demo">
         <div class="wrap">
           <h2>Charts</h2>
-          <p class="section__intro">
-            <strong>Top:</strong> static PNG. <strong>Below:</strong> interactive Plotly when <code>data.json</code>
-            loads.
-          </p>
 
           <div class="card">
             <h3>Historical slice — 10Y tenor, moneyness 1.0</h3>
             <p class="card__caption">How the “ATM” point evolves over the training period.</p>
             <div class="figure-stack">
-              <p class="chart-caption-static">Static image (PNG)</p>
               <img
                 class="chart-img"
                 src="assets/images/chart-history.png"
@@ -208,7 +179,6 @@
                 alt="Static line chart: 10Y ATM over time"
               />
             </div>
-            <p class="chart-caption-static">Interactive chart (Plotly)</p>
             <div id="chart-history" class="chart" role="img" aria-label="Interactive line chart"></div>
           </div>
 
@@ -216,7 +186,6 @@
             <h3>Surface on last training day</h3>
             <p class="card__caption">Tenor × moneyness heatmap for the final date in training_data.csv.</p>
             <div class="figure-stack">
-              <p class="chart-caption-static">Static image (PNG)</p>
               <img
                 class="chart-img"
                 src="assets/images/surface-heatmap.png"
@@ -225,7 +194,6 @@
                 alt="Static heatmap: volatility surface last training day"
               />
             </div>
-            <p class="chart-caption-static">Interactive chart (Plotly)</p>
             <div id="chart-heatmap" class="chart" role="img" aria-label="Interactive heatmap"></div>
           </div>
 
@@ -233,7 +201,6 @@
             <h3>Forecast sample — 10Y ATM</h3>
             <p class="card__caption">Out-of-sample segment when predictions are available.</p>
             <div class="figure-stack" id="forecast-static-wrap">
-              <p class="chart-caption-static">Static image (PNG)</p>
               <img
                 class="chart-img"
                 src="assets/images/chart-forecast.png"
@@ -243,7 +210,6 @@
                 onerror="this.closest('#forecast-static-wrap').style.display='none'"
               />
             </div>
-            <p class="chart-caption-static">Interactive chart (Plotly)</p>
             <div id="chart-forecast" class="chart" role="img" aria-label="Interactive forecast chart"></div>
           </div>
         </div>
@@ -271,11 +237,6 @@
             <span>Jupyter</span>
             <span>Plotly</span>
           </div>
-          <p class="section__intro" style="margin-top: 1.5rem">
-            Regenerate images, <code>training_data.html</code>, <code>training_profile.html</code>,
-            <code>demo_lookup.json</code>, and <code>demo-data.js</code>:
-            <code style="font-size: 0.9em">python scripts/build_docs_assets.py</code>
-          </p>
         </div>
       </section>
     </main>
@@ -289,10 +250,6 @@
           <a href="training_data.html">EDA tables</a>
           ·
           <a href="training_profile.html">Pandas Profiling (ydata)</a>
-        </p>
-        <p>
-          Hosted with <strong>GitHub Pages</strong> from <code>/docs</code> — see the repository README for setup (branch
-          or Actions workflow).
         </p>
       </div>
     </footer>
