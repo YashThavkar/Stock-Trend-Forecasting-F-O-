@@ -2,7 +2,7 @@
 WSGI entry for hosting the static site in ``docs/`` (e.g. Render).
 
 Start locally:  gunicorn main:app --bind 127.0.0.1:8080
-Render: set start command to  gunicorn main:app --bind 0.0.0.0:$PORT
+Render: ``gunicorn index:app --bind 0.0.0.0:$PORT`` (see ``index.py``) or ``gunicorn main:app ...``
 """
 from __future__ import annotations
 

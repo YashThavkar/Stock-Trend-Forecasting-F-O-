@@ -132,7 +132,7 @@ The repo includes **`main.py`**, which serves the static files under **`docs/`**
 1. Create a **Web Service** on [Render](https://render.com), connect this repository.
 2. **Runtime**: Python 3.
 3. **Build command**: `pip install -r requirements.txt`
-4. **Start command**: `gunicorn main:app --bind 0.0.0.0:$PORT`  
-   (A **`Procfile`** is included with the same command if Render picks it up automatically.)
+4. **Start command**: `gunicorn index:app --bind 0.0.0.0:$PORT`  
+   (`index.py` re-exports the Flask app from `main.py`, so Render’s common default `index:app` works. You can also use `gunicorn main:app --bind 0.0.0.0:$PORT`.)
 
 Open the service URL; you should see the same site as GitHub Pages. Ensure `docs/` is committed (including `assets/data.json`, images, and HTML).
